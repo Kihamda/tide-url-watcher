@@ -24,7 +24,7 @@
                     <TextBlock VerticalAlignment="Center" CharacterSpacing="240" FontSize="10" FontWeight="SemiBold" Foreground="#3D4842" Text="TIDE" />
                 </StackPanel>
                 <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="11" Foreground="#7D867F" Text="{x:Bind LastRefreshText, Mode=OneWay}" />
-                <Button Grid.Column="2" Margin="0,0,14,0" Background="Transparent" BorderThickness="0" Foreground="#7D867F" Content="☰" />
+                <Button Grid.Column="2" Margin="0,0,14,0" Background="Transparent" BorderThickness="0" Foreground="#7D867F" Style="{StaticResource TideButtonStyle}" Content="☰" />
             </Grid>
         </Border>
 
@@ -55,13 +55,13 @@
                         </Button>
                         <Grid Margin="9,24,4,5">
                             <TextBlock CharacterSpacing="190" FontSize="9" FontWeight="SemiBold" Foreground="#9DA39E" Text="SOURCES" />
-                            <Button HorizontalAlignment="Right" Click="AddSource_Click" Background="Transparent" BorderThickness="0" Foreground="#718079" Content="＋" />
+                            <Button HorizontalAlignment="Right" Click="AddSource_Click" Background="Transparent" BorderThickness="0" Foreground="#718079" Style="{StaticResource TideButtonStyle}" Content="＋" />
                         </Grid>
                         <Button Click="AllSources_Click" Style="{StaticResource SideButtonStyle}" Tag="all">
                             <TextBlock Text="▦   すべてのサイト" />
                         </Button>
                     </StackPanel>
-                    <ListView Grid.Row="1" Margin="0,4,0,0" ItemsSource="{x:Bind SourceRows, Mode=OneWay}" SelectionMode="None">
+                    <ListView Grid.Row="1" Margin="0,4,0,0" ItemContainerStyle="{StaticResource TideListViewItemStyle}" ItemsSource="{x:Bind SourceRows, Mode=OneWay}" SelectionMode="None">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:SourceRowViewModel">
                                 <Grid Margin="0,1">
@@ -83,7 +83,7 @@
                                             <TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="10" Foreground="#8E978F" Text="{x:Bind UnreadCount}" />
                                         </Grid>
                                     </Button>
-                                    <Button Grid.Column="1" Click="RemoveSource_Click" Background="Transparent" BorderThickness="0" Foreground="#AA8178" Tag="{x:Bind Id}" Content="×" />
+                                    <Button Grid.Column="1" Click="RemoveSource_Click" Background="Transparent" BorderThickness="0" Foreground="#AA8178" Style="{StaticResource TideButtonStyle}" Tag="{x:Bind Id}" Content="×" />
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -119,17 +119,10 @@
                         <TextBlock CharacterSpacing="140" FontSize="10" FontWeight="SemiBold" Foreground="#9CA49F" Text="{x:Bind StoriesCaption, Mode=OneWay}" />
                         <TextBlock CharacterSpacing="140" FontSize="10" FontWeight="SemiBold" Foreground="#CE846E" Text="{x:Bind UnreadCaption, Mode=OneWay}" />
                     </StackPanel>
-                    <Button HorizontalAlignment="Right" Click="MarkAllRead_Click" Background="Transparent" BorderThickness="0" Foreground="#849089" Content="✓✓  すべて既読にする" />
+                    <Button HorizontalAlignment="Right" Click="MarkAllRead_Click" Background="Transparent" BorderThickness="0" Foreground="#849089" Style="{StaticResource TideButtonStyle}" Content="✓✓  すべて既読にする" />
                 </Grid>
                 <Grid Grid.Row="2">
-                    <ListView ItemsSource="{x:Bind StoryCards, Mode=OneWay}" SelectionMode="None">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                <Setter Property="Padding" Value="0" />
-                                <Setter Property="Margin" Value="0,0,0,13" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
+                    <ListView ItemContainerStyle="{StaticResource StoryListViewItemStyle}" ItemsSource="{x:Bind StoryCards, Mode=OneWay}" SelectionMode="None">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:StoryCardViewModel">
                                 <Border MinHeight="190" Padding="0" Background="White" BorderBrush="#E9EDE7" BorderThickness="1" CornerRadius="13">
@@ -157,15 +150,15 @@
                                                 <TextBlock VerticalAlignment="Center" FontSize="10" Foreground="#9BA39E" Text="{x:Bind RelativeTime}" />
                                                 <TextBlock VerticalAlignment="Center" CharacterSpacing="130" FontSize="8" FontWeight="SemiBold" Foreground="#C97E67" Text="{x:Bind NewLabel}" />
                                             </StackPanel>
-                                            <Button Grid.Row="1" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Click="OpenStory_Click" Background="Transparent" BorderThickness="0" Padding="0" Tag="{x:Bind Id}">
+                                            <Button Grid.Row="1" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Click="OpenStory_Click" Background="Transparent" BorderThickness="0" Padding="0" Style="{StaticResource TideButtonStyle}" Tag="{x:Bind Id}">
                                                 <TextBlock Margin="0,11,0,7" FontFamily="Georgia" FontSize="24" Foreground="#3E4944" TextWrapping="Wrap" Text="{x:Bind Title}" />
                                             </Button>
                                             <TextBlock Grid.Row="2" MaxLines="3" FontSize="11" Foreground="#88918C" LineHeight="18" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Text="{x:Bind Summary}" />
                                             <Grid Grid.Row="3" Margin="0,10,0,0">
                                                 <TextBlock VerticalAlignment="Center" FontSize="10" Foreground="#B0B5B2" Text="{x:Bind Host}" />
                                                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Spacing="5">
-                                                    <Button Click="ToggleSaved_Click" Background="Transparent" BorderThickness="0" Foreground="#617B6E" Tag="{x:Bind Id}" Content="{x:Bind SaveGlyph}" />
-                                                    <Button Click="OpenStory_Click" Background="Transparent" BorderThickness="0" Foreground="#617B6E" Tag="{x:Bind Id}" Content="↗" />
+                                                    <Button Click="ToggleSaved_Click" Background="Transparent" BorderThickness="0" Foreground="#617B6E" Style="{StaticResource TideButtonStyle}" Tag="{x:Bind Id}" Content="{x:Bind SaveGlyph}" />
+                                                    <Button Click="OpenStory_Click" Background="Transparent" BorderThickness="0" Foreground="#617B6E" Style="{StaticResource TideButtonStyle}" Tag="{x:Bind Id}" Content="↗" />
                                                 </StackPanel>
                                             </Grid>
                                         </Grid>
@@ -200,7 +193,7 @@
                             <TextBlock Margin="0,6,0,0" FontSize="10" Foreground="#829088" LineHeight="16" TextWrapping="Wrap" Text="RSSが見つからないサイトも、ページから記事らしい更新を探します。" />
                         </StackPanel>
                     </Border>
-                    <Button Margin="0,10,0,0" Click="Refresh_Click" Background="Transparent" BorderThickness="0" Foreground="#77857E" Content="↻  今すぐチェック" />
+                    <Button Margin="0,10,0,0" Click="Refresh_Click" Background="Transparent" BorderThickness="0" Foreground="#77857E" Style="{StaticResource TideButtonStyle}" Content="↻  今すぐチェック" />
                 </StackPanel>
             </Border>
         </Grid>

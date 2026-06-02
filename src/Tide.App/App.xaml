@@ -7,7 +7,116 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="SideButtonStyle" TargetType="Button">
+            <Style x:Key="TideButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border
+                                x:Name="RootBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="RootBorder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="RootBorder" Storyboard.TargetProperty="Opacity" To="0.82" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="RootBorder" Storyboard.TargetProperty="Opacity" To="0.64" Duration="0:0:0.06" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="RootBorder" Storyboard.TargetProperty="Opacity" To="0.45" Duration="0" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    ContentTransitions="{TemplateBinding ContentTransitions}"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="TideListViewItemStyle" TargetType="ListViewItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListViewItem">
+                            <Grid x:Name="RootGrid" Background="Transparent">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Opacity" To="0.88" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Opacity" To="0.72" Duration="0:0:0.06" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Selected">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOverSelected">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Opacity" To="0.88" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PressedSelected">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Opacity" To="0.72" Duration="0:0:0.06" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Opacity" To="0.45" Duration="0" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    ContentTransitions="{TemplateBinding ContentTransitions}"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="StoryListViewItemStyle" BasedOn="{StaticResource TideListViewItemStyle}" TargetType="ListViewItem">
+                <Setter Property="Margin" Value="0,0,0,13" />
+            </Style>
+            <Style x:Key="SideButtonStyle" BasedOn="{StaticResource TideButtonStyle}" TargetType="Button">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
                 <Setter Property="Background" Value="Transparent" />
@@ -16,14 +125,14 @@
                 <Setter Property="CornerRadius" Value="8" />
                 <Setter Property="Padding" Value="10,8" />
             </Style>
-            <Style x:Key="QuietButtonStyle" TargetType="Button">
+            <Style x:Key="QuietButtonStyle" BasedOn="{StaticResource TideButtonStyle}" TargetType="Button">
                 <Setter Property="Background" Value="#EEF0EA" />
                 <Setter Property="Foreground" Value="#586C62" />
                 <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="CornerRadius" Value="9" />
                 <Setter Property="Padding" Value="14,9" />
             </Style>
-            <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Style x:Key="PrimaryButtonStyle" BasedOn="{StaticResource TideButtonStyle}" TargetType="Button">
                 <Setter Property="Background" Value="#53695D" />
                 <Setter Property="Foreground" Value="White" />
                 <Setter Property="BorderThickness" Value="0" />
