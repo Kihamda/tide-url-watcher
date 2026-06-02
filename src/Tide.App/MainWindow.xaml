@@ -24,7 +24,7 @@
                     <TextBlock VerticalAlignment="Center" CharacterSpacing="240" FontSize="10" FontWeight="SemiBold" Foreground="#3D4842" Text="TIDE" />
                 </StackPanel>
                 <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="11" Foreground="#7D867F" Text="{x:Bind LastRefreshText, Mode=OneWay}" />
-                <Button Grid.Column="2" Margin="0,0,14,0" Background="Transparent" BorderThickness="0" Foreground="#7D867F" Content="☰" />
+                <local:StableButton Grid.Column="2" Margin="0,0,14,0" Background="Transparent" BorderThickness="0" Foreground="#7D867F" Content="☰" />
             </Grid>
         </Border>
 
@@ -44,22 +44,22 @@
                     </Grid.RowDefinitions>
                     <StackPanel Spacing="3">
                         <TextBlock Margin="9,0,0,7" CharacterSpacing="190" FontSize="9" FontWeight="SemiBold" Foreground="#9DA39E" Text="LIBRARY" />
-                        <Button Click="AllStories_Click" Style="{StaticResource SideButtonStyle}">
+                        <local:StableButton Click="AllStories_Click" Style="{StaticResource SideButtonStyle}">
                             <Grid><TextBlock Text="◉   すべての新着" /><TextBlock HorizontalAlignment="Right" Text="{x:Bind TotalCount, Mode=OneWay}" /></Grid>
-                        </Button>
-                        <Button Click="UnreadStories_Click" Style="{StaticResource SideButtonStyle}">
+                        </local:StableButton>
+                        <local:StableButton Click="UnreadStories_Click" Style="{StaticResource SideButtonStyle}">
                             <Grid><TextBlock Text="✦   未読" /><TextBlock HorizontalAlignment="Right" Text="{x:Bind UnreadCount, Mode=OneWay}" /></Grid>
-                        </Button>
-                        <Button Click="SavedStories_Click" Style="{StaticResource SideButtonStyle}">
+                        </local:StableButton>
+                        <local:StableButton Click="SavedStories_Click" Style="{StaticResource SideButtonStyle}">
                             <Grid><TextBlock Text="◇   保存済み" /><TextBlock HorizontalAlignment="Right" Text="{x:Bind SavedCount, Mode=OneWay}" /></Grid>
-                        </Button>
+                        </local:StableButton>
                         <Grid Margin="9,24,4,5">
                             <TextBlock CharacterSpacing="190" FontSize="9" FontWeight="SemiBold" Foreground="#9DA39E" Text="SOURCES" />
-                            <Button HorizontalAlignment="Right" Click="AddSource_Click" Background="Transparent" BorderThickness="0" Foreground="#718079" Content="＋" />
+                            <local:StableButton HorizontalAlignment="Right" Click="AddSource_Click" Background="Transparent" BorderThickness="0" Foreground="#718079" Content="＋" />
                         </Grid>
-                        <Button Click="AllSources_Click" Style="{StaticResource SideButtonStyle}" Tag="all">
+                        <local:StableButton Click="AllSources_Click" Style="{StaticResource SideButtonStyle}" Tag="all">
                             <TextBlock Text="▦   すべてのサイト" />
-                        </Button>
+                        </local:StableButton>
                     </StackPanel>
                     <ListView Grid.Row="1" Margin="0,4,0,0" ItemsSource="{x:Bind SourceRows, Mode=OneWay}" SelectionMode="None">
                         <ListView.ItemTemplate>
@@ -69,7 +69,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="26" />
                                     </Grid.ColumnDefinitions>
-                                    <Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Click="Source_Click" Style="{StaticResource SideButtonStyle}" Tag="{x:Bind Id}">
+                                    <local:StableButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Click="Source_Click" Style="{StaticResource SideButtonStyle}" Tag="{x:Bind Id}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="22" />
@@ -82,13 +82,13 @@
                                             <TextBlock Grid.Column="1" Margin="8,0,4,0" VerticalAlignment="Center" FontSize="11" TextTrimming="CharacterEllipsis" Text="{x:Bind Title}" />
                                             <TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="10" Foreground="#8E978F" Text="{x:Bind UnreadCount}" />
                                         </Grid>
-                                    </Button>
-                                    <Button Grid.Column="1" Click="RemoveSource_Click" Background="Transparent" BorderThickness="0" Foreground="#AA8178" Tag="{x:Bind Id}" Content="×" />
+                                    </local:StableButton>
+                                    <local:StableButton Grid.Column="1" Click="RemoveSource_Click" Background="Transparent" BorderThickness="0" Foreground="#AA8178" Tag="{x:Bind Id}" Content="×" />
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <Button Grid.Row="2" Margin="0,10,0,0" Click="Settings_Click" Style="{StaticResource SideButtonStyle}" Content="⚙  環境設定" />
+                    <local:StableButton Grid.Row="2" Margin="0,10,0,0" Click="Settings_Click" Style="{StaticResource SideButtonStyle}" Content="⚙  環境設定" />
                 </Grid>
             </Border>
 
@@ -110,8 +110,8 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal" Spacing="9">
                         <TextBox Width="170" Height="38" TextChanged="SearchBox_TextChanged" PlaceholderText="記事を検索" />
-                        <Button Click="Refresh_Click" Style="{StaticResource QuietButtonStyle}" Content="↻  更新" />
-                        <Button Click="AddSource_Click" Style="{StaticResource PrimaryButtonStyle}" Content="＋  サイトを追加" />
+                        <local:StableButton Click="Refresh_Click" Style="{StaticResource QuietButtonStyle}" Content="↻  更新" />
+                        <local:StableButton Click="AddSource_Click" Style="{StaticResource PrimaryButtonStyle}" Content="＋  サイトを追加" />
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="1">
@@ -119,7 +119,7 @@
                         <TextBlock CharacterSpacing="140" FontSize="10" FontWeight="SemiBold" Foreground="#9CA49F" Text="{x:Bind StoriesCaption, Mode=OneWay}" />
                         <TextBlock CharacterSpacing="140" FontSize="10" FontWeight="SemiBold" Foreground="#CE846E" Text="{x:Bind UnreadCaption, Mode=OneWay}" />
                     </StackPanel>
-                    <Button HorizontalAlignment="Right" Click="MarkAllRead_Click" Background="Transparent" BorderThickness="0" Foreground="#849089" Content="✓✓  すべて既読にする" />
+                    <local:StableButton HorizontalAlignment="Right" Click="MarkAllRead_Click" Background="Transparent" BorderThickness="0" Foreground="#849089" Content="✓✓  すべて既読にする" />
                 </Grid>
                 <Grid Grid.Row="2">
                     <ListView ItemsSource="{x:Bind StoryCards, Mode=OneWay}" SelectionMode="None">
@@ -157,15 +157,15 @@
                                                 <TextBlock VerticalAlignment="Center" FontSize="10" Foreground="#9BA39E" Text="{x:Bind RelativeTime}" />
                                                 <TextBlock VerticalAlignment="Center" CharacterSpacing="130" FontSize="8" FontWeight="SemiBold" Foreground="#C97E67" Text="{x:Bind NewLabel}" />
                                             </StackPanel>
-                                            <Button Grid.Row="1" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Click="OpenStory_Click" Background="Transparent" BorderThickness="0" Padding="0" Tag="{x:Bind Id}">
+                                            <local:StableButton Grid.Row="1" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Click="OpenStory_Click" Background="Transparent" BorderThickness="0" Padding="0" Tag="{x:Bind Id}">
                                                 <TextBlock Margin="0,11,0,7" FontFamily="Georgia" FontSize="24" Foreground="#3E4944" TextWrapping="Wrap" Text="{x:Bind Title}" />
-                                            </Button>
+                                            </local:StableButton>
                                             <TextBlock Grid.Row="2" MaxLines="3" FontSize="11" Foreground="#88918C" LineHeight="18" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Text="{x:Bind Summary}" />
                                             <Grid Grid.Row="3" Margin="0,10,0,0">
                                                 <TextBlock VerticalAlignment="Center" FontSize="10" Foreground="#B0B5B2" Text="{x:Bind Host}" />
                                                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Spacing="5">
-                                                    <Button Click="ToggleSaved_Click" Background="Transparent" BorderThickness="0" Foreground="#617B6E" Tag="{x:Bind Id}" Content="{x:Bind SaveGlyph}" />
-                                                    <Button Click="OpenStory_Click" Background="Transparent" BorderThickness="0" Foreground="#617B6E" Tag="{x:Bind Id}" Content="↗" />
+                                                    <local:StableButton Click="ToggleSaved_Click" Background="Transparent" BorderThickness="0" Foreground="#617B6E" Tag="{x:Bind Id}" Content="{x:Bind SaveGlyph}" />
+                                                    <local:StableButton Click="OpenStory_Click" Background="Transparent" BorderThickness="0" Foreground="#617B6E" Tag="{x:Bind Id}" Content="↗" />
                                                 </StackPanel>
                                             </Grid>
                                         </Grid>
@@ -181,7 +181,7 @@
                         <TextBlock Margin="0,18,0,0" HorizontalAlignment="Center" CharacterSpacing="190" FontSize="9" FontWeight="SemiBold" Foreground="#9DA39E" Text="A QUIETER INBOX" />
                         <TextBlock Margin="0,11,0,0" HorizontalAlignment="Center" FontFamily="Georgia" FontSize="31" Foreground="#425149" TextAlignment="Center" Text="Webの新着を、&#x0a;心地よいひとつの場所へ。" />
                         <TextBlock Width="380" Margin="0,9,0,18" FontSize="12" Foreground="#929C96" LineHeight="20" TextAlignment="Center" TextWrapping="Wrap" Text="サイトを登録すると、RSSやページ内の記事を見つけて読みやすく整えます。" />
-                        <Button HorizontalAlignment="Center" Click="AddSource_Click" Style="{StaticResource PrimaryButtonStyle}" Content="＋  最初のサイトを追加" />
+                        <local:StableButton HorizontalAlignment="Center" Click="AddSource_Click" Style="{StaticResource PrimaryButtonStyle}" Content="＋  最初のサイトを追加" />
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -200,7 +200,7 @@
                             <TextBlock Margin="0,6,0,0" FontSize="10" Foreground="#829088" LineHeight="16" TextWrapping="Wrap" Text="RSSが見つからないサイトも、ページから記事らしい更新を探します。" />
                         </StackPanel>
                     </Border>
-                    <Button Margin="0,10,0,0" Click="Refresh_Click" Background="Transparent" BorderThickness="0" Foreground="#77857E" Content="↻  今すぐチェック" />
+                    <local:StableButton Margin="0,10,0,0" Click="Refresh_Click" Background="Transparent" BorderThickness="0" Foreground="#77857E" Content="↻  今すぐチェック" />
                 </StackPanel>
             </Border>
         </Grid>

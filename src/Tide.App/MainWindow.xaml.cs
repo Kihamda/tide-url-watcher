@@ -76,7 +76,7 @@ public sealed partial class MainWindow : Window, INotifyPropertyChanged
 
     private async void Settings_Click(object sender, RoutedEventArgs e)
     {
-        var openFolder = new Button
+        var openFolder = new StableButton
         {
             HorizontalAlignment = HorizontalAlignment.Left,
             Content = "保存フォルダを開く",
