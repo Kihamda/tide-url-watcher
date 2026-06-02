@@ -1,10 +1,9 @@
-name: CI
+name: PR CI
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-  pull_request:
 
 permissions:
   contents: read
@@ -13,7 +12,7 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
