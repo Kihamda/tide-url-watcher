@@ -4,6 +4,8 @@ var checks = new (string Name, Action Check)[]
 {
     ("normalizes bare URL", () =>
         Equal("https://example.com/news", FeedParser.NormalizeUrl("example.com/news").ToString().TrimEnd('/'))),
+    ("uses portable storage beside executable", () =>
+        Equal(Path.Combine(AppContext.BaseDirectory, "Data", "watcher-data.json"), PortablePaths.StoragePath)),
     ("parses RSS", () =>
     {
         var feed = FeedParser.ParseFeed(

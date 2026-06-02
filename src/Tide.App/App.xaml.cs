@@ -1,4 +1,5 @@
 using Microsoft.UI.Xaml;
+using Tide.Core;
 using Windows.Graphics;
 
 namespace Tide.App;
@@ -39,12 +40,16 @@ public partial class App : Application
 
     private static void WriteStartupError(Exception exception)
     {
-        var directory = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "Tide");
-        Directory.CreateDirectory(directory);
-        File.AppendAllText(
-            Path.Combine(directory, "startup.log"),
-            $"[{DateTimeOffset.Now:O}]{Environment.NewLine}{exception}{Environment.NewLine}{Environment.NewLine}");
+        try
+        {
+            PortablePaths.EnsureDataDirectory();
+            File.AppendAllText(
+                PortablePaths.StartupLogPath,
+                $"[{DateTimeOffset.Now:O}]{Environment.NewLine}{exception}{Environment.NewLine}{Environment.NewLine}");
+        }
+        catch
+        {
+            // Startup diagnostics are best-effort for portable, read-only locations.
+        }
     }
 }
