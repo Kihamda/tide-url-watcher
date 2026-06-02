@@ -1,86 +1,51 @@
 # Tide
 
-Tide is a calm desktop reader for the websites you care about. Register a web
-page or feed URL and Tide collects new stories into one focused inbox.
+Tide is a calm, native Windows reader for website updates. Register a site or
+feed URL and Tide collects new stories into one focused inbox.
 
-The desktop app is built with React Native for Windows and macOS. It does not
-embed a browser engine or use Tauri.
+The app is built with C# and WinUI 3 on the stable Windows App SDK. It does not
+embed a browser engine and no longer carries cross-platform runtime code.
 
 ## Features
 
 - RSS and Atom parsing with feed autodiscovery
 - HTML article-card fallback for sites without feeds
 - Unread, saved, source, and text filters
-- Local-only storage through AsyncStorage
-- Responsive three-panel desktop UI
-- Shared TypeScript UI and reader logic across Windows and macOS
-
-## Stack
-
-| Layer | Choice |
-| --- | --- |
-| UI | React Native 0.81.6 |
-| Windows | React Native Windows 0.81.25, Fabric C++ app |
-| macOS | React Native macOS 0.81.7 |
-| Persistence | `@react-native-async-storage/async-storage` |
-| Feed parsing | `fast-xml-parser` |
-
-The React Native minor version is intentionally pinned to `0.81`: the current
-macOS package requires `react-native 0.81.6`, while Windows supports the same
-minor. Keeping that common baseline avoids platform forks.
+- Local-only JSON storage under `%LOCALAPPDATA%\Tide`
+- Native WinUI 3 controls and Windows visual language
 
 ## Develop
 
-Install dependencies:
+Requirements:
+
+- Visual Studio Community 2026 with WinUI application development tools
+- .NET SDK 10
+- Windows SDK 10.0.26100 or later
+
+Build:
 
 ```powershell
-npm install
+dotnet restore Tide.slnx
+dotnet build Tide.slnx -c Release
 ```
 
-Run Metro:
+Run:
 
 ```powershell
-npm start
+dotnet run --project src/Tide.App/Tide.App.csproj
 ```
 
-Run Windows from a second terminal:
+Run the dependency-free Core verification suite:
 
 ```powershell
-npm run windows
+dotnet run --project tests/Tide.Core.Tests/Tide.Core.Tests.csproj -c Release
 ```
 
-Run macOS on a Mac:
+## Delivery
 
-```bash
-cd macos && pod install && cd ..
-npm run macos
-```
+Pull requests run the lightweight Core verification suite. Merges to `main`
+publish the native Windows x64 app as a GitHub Actions artifact. Tags such as
+`v0.1.0` publish the same artifact in a GitHub Release.
 
-Windows development requires Visual Studio 2022 with the React Native Windows
-workload. macOS development requires Xcode and CocoaPods.
-
-## Validate
-
-```powershell
-npm run typecheck
-npm run lint
-npm run test:ci
-npm audit --omit=dev
-```
-
-The repository also bundles JavaScript for both desktop platforms in CI before
-running native platform builds.
-
-## Release
-
-Push a semantic version tag such as `v0.1.0`. GitHub Actions builds an unsigned
-Windows x64 ZIP and an unsigned macOS app ZIP, then publishes both files in a
-GitHub Release. Code-signing secrets can be added before a public store release.
-
-## Architecture Notes
-
-The initial version keeps feed parsing in TypeScript to stay small and avoid an
-OS-specific bridge. A Rust core remains a reasonable later optimization if
-large subscription sets make parsing measurable. At that point, expose one
-small Turbo Native Module contract on both platforms and keep the React Native
-UI unchanged.
+The initial app is unpackaged and framework-dependent to keep output small.
+Shipping to a wider audience should add an MSIX package and App Installer feed.

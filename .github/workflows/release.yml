@@ -8,79 +8,29 @@ on:
 permissions:
   contents: write
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
         with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - run: npm run autolink:windows
-      - name: Build Windows x64 app
+          dotnet-version: 10.0.x
+      - run: dotnet publish src/Tide.App/Tide.App.csproj --configuration Release --runtime win-x64 --self-contained false --output artifacts/Tide-Windows-x64
+      - name: Package Windows app
         shell: pwsh
-        run: |
-          $msbuild = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" `
-            -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe |
-            Select-Object -First 1
-          if (-not $msbuild) { throw 'MSBuild was not found.' }
-          & $msbuild windows\ComKihamdaTide.sln /restore /m /p:Configuration=Release /p:Platform=x64 /p:AppxPackageSigningEnabled=false /p:WindowsAppSDKVerifyTransitiveDependencies=false
-      - name: Package Windows x64 app
-        shell: pwsh
-        run: |
-          New-Item -ItemType Directory -Force artifacts | Out-Null
-          $release = Get-ChildItem windows -Directory -Recurse |
-            Where-Object { $_.FullName -match '\\x64\\Release$' } |
-            Select-Object -First 1
-          if (-not $release) { throw 'Windows Release output was not found.' }
-          Compress-Archive -Path "$($release.FullName)\*" -DestinationPath artifacts\Tide-Windows-x64.zip
-      - uses: actions/upload-artifact@v4
+        run: Compress-Archive -Path artifacts/Tide-Windows-x64/* -DestinationPath artifacts/Tide-Windows-x64.zip
+      - uses: actions/upload-artifact@v7
         with:
           name: Tide-Windows-x64
           path: artifacts/Tide-Windows-x64.zip
 
-  macos:
-    runs-on: macos-15
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - run: pod install --project-directory=macos
-      - name: Build macOS app
-        run: >
-          xcodebuild
-          -workspace macos/com.kihamda.tide.xcworkspace
-          -scheme com.kihamda.tide-macOS
-          -configuration Release
-          -derivedDataPath build/macos
-          CODE_SIGNING_ALLOWED=NO
-          build
-      - name: Package macOS app
-        run: |
-          mkdir -p artifacts
-          app="$(find build/macos -name '*.app' -type d | head -n 1)"
-          test -n "$app"
-          ditto -c -k --sequesterRsrc --keepParent "$app" artifacts/Tide-macOS.zip
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Tide-macOS
-          path: artifacts/Tide-macOS.zip
-
   publish:
     needs:
       - windows
-      - macos
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: artifacts
           merge-multiple: true

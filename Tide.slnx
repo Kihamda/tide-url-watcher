@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Tide.App/Tide.App.csproj" />
+    <Project Path="src/Tide.Core/Tide.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Tide.Core.Tests/Tide.Core.Tests.csproj" />
+  </Folder>
+</Solution>
