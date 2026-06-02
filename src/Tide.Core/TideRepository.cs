@@ -18,10 +18,11 @@ public sealed class TideRepository
 
     public TideRepository(string? storagePath = null, HttpClient? httpClient = null)
     {
-        _storagePath = storagePath ?? Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "Tide",
-            "watcher-data.json");
+        if (storagePath is null)
+        {
+            PortablePaths.MigrateLegacyData();
+        }
+        _storagePath = storagePath ?? PortablePaths.StoragePath;
         _httpClient = httpClient ?? new HttpClient { Timeout = TimeSpan.FromSeconds(18) };
         _httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Tide", "0.1"));
         _httpClient.DefaultRequestHeaders.Accept.ParseAdd(

@@ -4,6 +4,7 @@
 .idea/
 .vscode/
 artifacts/
+Data/
 TestResults/
 *.user
 *.suo

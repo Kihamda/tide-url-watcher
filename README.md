@@ -11,7 +11,7 @@ embed a browser engine and no longer carries cross-platform runtime code.
 - RSS and Atom parsing with feed autodiscovery
 - HTML article-card fallback for sites without feeds
 - Unread, saved, source, and text filters
-- Local-only JSON storage under `%LOCALAPPDATA%\Tide`
+- Portable JSON storage under the `Data` folder beside `Tide.App.exe`
 - Native WinUI 3 controls and Windows visual language
 
 ## Develop
@@ -44,8 +44,10 @@ dotnet run --project tests/Tide.Core.Tests/Tide.Core.Tests.csproj -c Release
 ## Delivery
 
 Pull requests run the lightweight Core verification suite. Merges to `main`
-publish the native Windows x64 app as a GitHub Actions artifact. Tags such as
-`v0.1.0` publish the same artifact in a GitHub Release.
+publish the native Windows x64 app as a GitHub Actions artifact and create a
+versioned GitHub Release automatically.
 
 The initial app is unpackaged and framework-dependent to keep output small.
-Shipping to a wider audience should add an MSIX package and App Installer feed.
+Extract it into a writable folder before running it. Settings, diagnostics, and
+collected update metadata stay inside its adjacent `Data` folder. Existing data
+from older builds is moved out of `%LOCALAPPDATA%\Tide` on the first launch.

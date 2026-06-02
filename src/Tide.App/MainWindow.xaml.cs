@@ -6,7 +6,6 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Tide.Core;
 
 namespace Tide.App;
@@ -73,6 +72,52 @@ public sealed partial class MainWindow : Window, INotifyPropertyChanged
             RefreshView();
             ShowStatus("新しいサイトを追加しました。", InfoBarSeverity.Success);
         }, "サイトを追加できませんでした");
+    }
+
+    private async void Settings_Click(object sender, RoutedEventArgs e)
+    {
+        var openFolder = new Button
+        {
+            HorizontalAlignment = HorizontalAlignment.Left,
+            Content = "保存フォルダを開く",
+            Style = (Style)Application.Current.Resources["QuietButtonStyle"]
+        };
+        openFolder.Click += (_, _) =>
+        {
+            PortablePaths.MigrateLegacyData();
+            PortablePaths.EnsureDataDirectory();
+            Process.Start(new ProcessStartInfo(PortablePaths.DataDirectory) { UseShellExecute = true });
+        };
+
+        var location = new TextBox
+        {
+            IsReadOnly = true,
+            Text = PortablePaths.DataDirectory,
+            TextWrapping = TextWrapping.Wrap
+        };
+        var content = new StackPanel { Spacing = 10 };
+        content.Children.Add(new TextBlock
+        {
+            Text = "ポータブルモード",
+            FontSize = 18,
+            FontWeight = Microsoft.UI.Text.FontWeights.SemiBold
+        });
+        content.Children.Add(new TextBlock
+        {
+            Text = "設定と取得済みの新着情報は、アプリ本体と同じフォルダ内の Data に保存します。",
+            TextWrapping = TextWrapping.Wrap
+        });
+        content.Children.Add(location);
+        content.Children.Add(openFolder);
+
+        var dialog = new ContentDialog
+        {
+            XamlRoot = RootGrid.XamlRoot,
+            Title = "環境設定",
+            Content = content,
+            CloseButtonText = "閉じる"
+        };
+        await dialog.ShowAsync();
     }
 
     private async void Refresh_Click(object sender, RoutedEventArgs e)
@@ -292,7 +337,6 @@ public sealed class StoryCardViewModel
         NewLabel = story.IsRead ? string.Empty : "NEW";
         SaveGlyph = story.IsSaved ? "◆" : "◇";
         AccentBrush = ColorBrush.FromHex(source.Accent);
-        Image = Uri.TryCreate(story.ImageUrl, UriKind.Absolute, out var imageUri) ? new BitmapImage(imageUri) : null;
     }
 
     public string Id { get; }
@@ -305,7 +349,6 @@ public sealed class StoryCardViewModel
     public string NewLabel { get; }
     public string SaveGlyph { get; }
     public SolidColorBrush AccentBrush { get; }
-    public BitmapImage? Image { get; }
 }
 
 internal static class MainWindowTime
