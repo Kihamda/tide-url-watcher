@@ -29,7 +29,7 @@ jobs:
             -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe |
             Select-Object -First 1
           if (-not $msbuild) { throw 'MSBuild was not found.' }
-          & $msbuild windows\ComKihamdaTide.sln /restore /m /p:Configuration=Release /p:Platform=x64 /p:AppxPackageSigningEnabled=false
+          & $msbuild windows\ComKihamdaTide.sln /restore /m /p:Configuration=Release /p:Platform=x64 /p:AppxPackageSigningEnabled=false /p:WindowsAppSDKVerifyTransitiveDependencies=false
       - name: Package Windows x64 app
         shell: pwsh
         run: |

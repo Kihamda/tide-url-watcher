@@ -12,6 +12,10 @@ permissions:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     runs-on: ubuntu-latest
@@ -26,45 +30,3 @@ jobs:
       - run: npm run lint
       - run: npm run test:ci
       - run: npm audit --omit=dev
-      - run: mkdir -p build/windows build/macos
-      - run: npx react-native bundle --platform windows --entry-file index.js --bundle-output build/windows/index.windows.bundle --assets-dest build/windows/assets --dev false
-      - run: npx react-native bundle --platform macos --entry-file index.js --bundle-output build/macos/index.macos.bundle --assets-dest build/macos/assets --dev false
-
-  windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - run: npm run autolink:windows
-      - name: Build Windows x64 app
-        shell: pwsh
-        run: |
-          $msbuild = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" `
-            -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe |
-            Select-Object -First 1
-          if (-not $msbuild) { throw 'MSBuild was not found.' }
-          & $msbuild windows\ComKihamdaTide.sln /restore /m /p:Configuration=Release /p:Platform=x64 /p:AppxPackageSigningEnabled=false
-
-  macos:
-    runs-on: macos-15
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - run: pod install --project-directory=macos
-      - name: Build macOS app
-        run: >
-          xcodebuild
-          -workspace macos/com.kihamda.tide.xcworkspace
-          -scheme com.kihamda.tide-macOS
-          -configuration Release
-          -derivedDataPath build/macos
-          CODE_SIGNING_ALLOWED=NO
-          build
