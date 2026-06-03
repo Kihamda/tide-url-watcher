@@ -21,6 +21,9 @@ jobs:
         with:
           dotnet-version: 10.0.x
       - run: dotnet publish src/Tide.App/Tide.App.csproj --configuration Release --runtime win-x64 --self-contained false --output artifacts/Tide-Windows-x64
+      - name: Add package docs
+        shell: pwsh
+        run: Copy-Item -LiteralPath README.md -Destination artifacts/Tide-Windows-x64/README.md
       - name: Package Windows app
         shell: pwsh
         run: |

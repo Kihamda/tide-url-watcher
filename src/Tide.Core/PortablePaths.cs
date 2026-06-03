@@ -4,6 +4,9 @@ public static class PortablePaths
 {
     public static string DataDirectory => Path.Combine(AppContext.BaseDirectory, "Data");
     public static string StoragePath => Path.Combine(DataDirectory, "watcher-data.json");
+    public static string BackupStoragePath => Path.Combine(DataDirectory, "watcher-data.json.bak");
+    public static string TempStoragePath => Path.Combine(DataDirectory, "watcher-data.json.tmp");
+    public static string AppLogPath => Path.Combine(DataDirectory, "app.log");
     public static string StartupLogPath => Path.Combine(DataDirectory, "startup.log");
 
     public static void EnsureDataDirectory() => Directory.CreateDirectory(DataDirectory);
@@ -22,6 +25,8 @@ public static class PortablePaths
         {
             EnsureDataDirectory();
             MoveIfPresent(Path.Combine(legacyDirectory, "watcher-data.json"), StoragePath);
+            MoveIfPresent(Path.Combine(legacyDirectory, "watcher-data.json.bak"), BackupStoragePath);
+            MoveIfPresent(Path.Combine(legacyDirectory, "app.log"), AppLogPath);
             MoveIfPresent(Path.Combine(legacyDirectory, "startup.log"), StartupLogPath);
             if (!Directory.EnumerateFileSystemEntries(legacyDirectory).Any())
             {
