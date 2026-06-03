@@ -66,13 +66,13 @@
                         <Button Click="MutedSources_Click" Style="{StaticResource SideButtonStyle}" Content="-   ミュート中" />
                         <Grid Margin="9,24,4,5">
                             <TextBlock CharacterSpacing="190" FontSize="9" FontWeight="SemiBold" Foreground="#9DA39E" Text="SOURCES" />
-                            <Button HorizontalAlignment="Right" Click="AddSource_Click" Background="Transparent" BorderThickness="0" Foreground="#718079" Content="＋" />
+                            <Button HorizontalAlignment="Right" Click="AddSource_Click" Background="Transparent" BorderThickness="0" Foreground="#718079" Style="{StaticResource TideButtonStyle}" Content="＋" />
                         </Grid>
                         <Button Click="AllSources_Click" Style="{StaticResource SideButtonStyle}" Tag="all">
                             <TextBlock Text="▦   すべてのサイト" />
                         </Button>
                     </StackPanel>
-                    <ListView Grid.Row="1" Margin="0,4,0,0" ItemsSource="{x:Bind SourceRows, Mode=OneWay}" SelectionMode="None">
+                    <ListView Grid.Row="1" Margin="0,4,0,0" ItemContainerStyle="{StaticResource TideListViewItemStyle}" ItemsSource="{x:Bind SourceRows, Mode=OneWay}" SelectionMode="None">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:SourceRowViewModel">
                                 <Grid Margin="0,1">
@@ -136,17 +136,10 @@
                         <TextBlock CharacterSpacing="140" FontSize="10" FontWeight="SemiBold" Foreground="#9CA49F" Text="{x:Bind StoriesCaption, Mode=OneWay}" />
                         <TextBlock CharacterSpacing="140" FontSize="10" FontWeight="SemiBold" Foreground="#CE846E" Text="{x:Bind UnreadCaption, Mode=OneWay}" />
                     </StackPanel>
-                    <Button HorizontalAlignment="Right" Click="MarkAllRead_Click" Background="Transparent" BorderThickness="0" Foreground="#849089" Content="✓✓  すべて既読にする" />
+                    <Button HorizontalAlignment="Right" Click="MarkAllRead_Click" Background="Transparent" BorderThickness="0" Foreground="#849089" Style="{StaticResource TideButtonStyle}" Content="✓✓  すべて既読にする" />
                 </Grid>
                 <Grid Grid.Row="2">
-                    <ListView ItemsSource="{x:Bind StoryCards, Mode=OneWay}" SelectionMode="None">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                <Setter Property="Padding" Value="0" />
-                                <Setter Property="Margin" Value="0,0,0,13" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
+                    <ListView ItemContainerStyle="{StaticResource StoryListViewItemStyle}" ItemsSource="{x:Bind StoryCards, Mode=OneWay}" SelectionMode="None">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:StoryCardViewModel">
                                 <Border MinHeight="190" Padding="0" Background="White" BorderBrush="#E9EDE7" BorderThickness="1" CornerRadius="8">
@@ -221,7 +214,7 @@
                             <TextBlock Margin="0,6,0,0" FontSize="10" Foreground="#829088" LineHeight="16" TextWrapping="Wrap" Text="{x:Bind RadarStatusText, Mode=OneWay}" />
                         </StackPanel>
                     </Border>
-                    <Button Margin="0,10,0,0" Click="Refresh_Click" Background="Transparent" BorderThickness="0" Foreground="#77857E" Content="↻  今すぐチェック" />
+                    <Button Margin="0,10,0,0" Click="Refresh_Click" Background="Transparent" BorderThickness="0" Foreground="#77857E" Style="{StaticResource TideButtonStyle}" Content="↻  今すぐチェック" />
                 </StackPanel>
             </Border>
         </Grid>
